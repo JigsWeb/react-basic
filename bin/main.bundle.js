@@ -27089,11 +27089,11 @@
 
 	var _App3 = _interopRequireDefault(_App2);
 
-	var _NotFound2 = __webpack_require__(491);
+	var _NotFound2 = __webpack_require__(492);
 
 	var _NotFound3 = _interopRequireDefault(_NotFound2);
 
-	var _Home2 = __webpack_require__(492);
+	var _Home2 = __webpack_require__(493);
 
 	var _Home3 = _interopRequireDefault(_Home2);
 
@@ -27171,7 +27171,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.TodosList = exports.Navigator = undefined;
+	exports.TodosForm = exports.TodosList = exports.Navigator = undefined;
 
 	var _Navigator2 = __webpack_require__(238);
 
@@ -27181,10 +27181,15 @@
 
 	var _TodosList3 = _interopRequireDefault(_TodosList2);
 
+	var _TodosForm2 = __webpack_require__(491);
+
+	var _TodosForm3 = _interopRequireDefault(_TodosForm2);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.Navigator = _Navigator3.default;
 	exports.TodosList = _TodosList3.default;
+	exports.TodosForm = _TodosForm3.default;
 
 /***/ },
 /* 238 */
@@ -46048,7 +46053,18 @@
 					return _react2.default.createElement(
 						"li",
 						{ key: i },
-						todo.content
+						todo.content,
+						_react2.default.createElement(
+							"a",
+							{ href: "#" },
+							"Modifier"
+						),
+						"| ",
+						_react2.default.createElement(
+							"a",
+							{ href: "#" },
+							"Supprimer"
+						)
 					);
 				};
 
@@ -46063,8 +46079,7 @@
 					_react2.default.createElement(
 						"ul",
 						null,
-						todos.map(ListWrapper),
-						";"
+						todos.map(ListWrapper)
 					)
 				);
 			}
@@ -46077,6 +46092,72 @@
 
 /***/ },
 /* 491 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TodosForm = function (_Component) {
+		_inherits(TodosForm, _Component);
+
+		function TodosForm() {
+			_classCallCheck(this, TodosForm);
+
+			var _this = _possibleConstructorReturn(this, (TodosForm.__proto__ || Object.getPrototypeOf(TodosForm)).call(this));
+
+			_this.handleChange = function (event) {
+				return _this.setState({ content: event.target.value });
+			};
+
+			_this.handleSubmit = function (event) {
+				event.preventDefault();
+				_this.props.handleSubmit(_this.state);
+			};
+
+			_this.state = { 'content': '' };
+			return _this;
+		}
+
+		_createClass(TodosForm, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'form',
+					{ id: 'TodosForm', onSubmit: this.handleSubmit },
+					_react2.default.createElement('input', {
+						type: 'text',
+						placeholder: 'Enter a new todo',
+						value: this.state.content,
+						onChange: this.handleChange }),
+					_react2.default.createElement('input', { type: 'submit', value: 'Send' })
+				);
+			}
+		}]);
+
+		return TodosForm;
+	}(_react.Component);
+
+	exports.default = TodosForm;
+
+/***/ },
+/* 492 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46125,7 +46206,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 492 */
+/* 493 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46156,12 +46237,26 @@
 		function Home() {
 			_classCallCheck(this, Home);
 
-			return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this));
+
+			_this.handleTodosFormSubmit = function (todo) {
+				return _this.setState(function (prevState) {
+					return { 'todos': [todo].concat(prevState.todos) };
+				});
+			};
+
+			_this.state = { todos: [] };
+			return _this;
 		}
 
 		_createClass(Home, [{
 			key: 'render',
 			value: function render() {
+				var todos = this.state.todos;
+
+
+				console.log(todos);
+
 				return _react2.default.createElement(
 					'div',
 					{ id: 'Home' },
@@ -46170,7 +46265,8 @@
 						null,
 						'Home - Todos'
 					),
-					_react2.default.createElement(_components.TodosList, { todos: [{ content: 'Ceci est un test' }] })
+					_react2.default.createElement(_components.TodosForm, { handleSubmit: this.handleTodosFormSubmit }),
+					_react2.default.createElement(_components.TodosList, { todos: todos })
 				);
 			}
 		}]);
